@@ -84,8 +84,9 @@ export function fromRoman(s: string): number
   let total = 0;
   for (let i = 0; i < s.length; i++)
   {
-    const current = values[s[i]];
-    const next = values[s[i + 1]] ?? 0;
+    const ch = s[i]!; // TS for-loop i known issue
+    const current = values[ch]!; // TS for-loop i known issue
+    const next = values[s[i + 1] ?? ''] ?? 0;
     if (current < next)
     {
       total -= current;

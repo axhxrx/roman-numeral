@@ -95,7 +95,7 @@ describe('isValidRoman — rejects non-canonical repetition', () =>
     ['VV', 'V must not repeat'],
     ['LL', 'L must not repeat'],
     ['DD', 'D must not repeat'],
-  ];
+  ] as const;
 
   for (const [input, reason] of cases)
   {
@@ -157,7 +157,7 @@ describe('isValidRoman — rejects non-canonical ordering and structure', () =>
     ['CDC', 'invalid: C after CD'],
     ['XLX', 'invalid: X after XL'],
     ['IVI', 'invalid: I after IV'],
-  ];
+  ] as const;
 
   for (const [input, reason] of cases)
   {
@@ -183,7 +183,7 @@ describe('isValidRoman — rejects non-Roman input', () =>
     ['Ⅳ', 'Unicode Roman numeral character (U+2163)'],
     ['0', 'zero digit'],
     ['NULLA', 'medieval zero word'],
-  ];
+  ] as const;
 
   for (const [input, reason] of cases)
   {
