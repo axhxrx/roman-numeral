@@ -1,0 +1,13 @@
+{
+  "name": "roman-numeral",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "private": true,
+  "dependencies": {
+    "@axhxrx/op": "npm:@jsr/axhxrx__op"
+  }
+}

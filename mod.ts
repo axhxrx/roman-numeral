@@ -1,3 +1,1 @@
-if (import.meta.main) {
-  console.log("Hello, this is @axhxrx/roman-numeral");
-}
+export * from './ToRoman.op.ts';

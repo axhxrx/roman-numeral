@@ -3,4 +3,7 @@
   "version": "0.0.1",
   "exports": "./mod.ts",
   "license": "MIT",
+  "imports": {
+    "@axhxrx/op": "jsr:@axhxrx/op@^0.9.3"
+  },
 }
