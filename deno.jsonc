@@ -1,6 +1,6 @@
 {
   "name": "@axhxrx/roman-numeral",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "exports": "./mod.ts",
   "license": "MIT",
   "compilerOptions": {

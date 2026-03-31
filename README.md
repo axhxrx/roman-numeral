@@ -30,6 +30,8 @@ undefined
 > ^D
 ```
 
+🤭 2026-03-31:  2.0.1 — More Roman, but less redundancy wrt multiple obsolete example `main()` methods... plus a real `LICENSE` file!
+
 🤘 2026-03-31: 2.0.0 — More Roman than Roman! More Roman than Roman! Tests under Deno &  Bun & Node.
 
 🤖 2026-03-29: repo initialized by Bottie McBotface bot@axhxrx.com

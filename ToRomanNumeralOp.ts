@@ -1,19 +1,8 @@
-#!/usr/bin/env bun
-
 /**
  @fileoverview Op that converts a positive integer to a Roman numeral string.
 
  Supports values from 1 to 3999 using standard subtractive notation. Values outside this range throw by default, or return decimal notation if the `fallbackToDecimal` option is set.
-
- Usage:
- ```bash
- bun ToRoman.op.ts <number>
- bun ToRoman.op.ts 2026        # → MMXXVI
- bun ToRoman.op.ts 3999        # → MMMCMXCIX
- ```
  */
-import process from 'node:process';
-
 import { Op } from '@axhxrx/op';
 import type { Failure, Success } from '@axhxrx/op';
 import { RomanNumeralMaximumValue, RomanNumeralMinimumValue } from './consts.ts';
@@ -87,42 +76,8 @@ export class ToRomanNumeralOp extends Op<
   }
 }
 
-export async function main(args: string[] = process.argv.slice(2))
-{
-  if (args.length === 0 || args[0] === '--help' || args[0] === '-h')
-  {
-    console.log(`Usage: bun ToRoman.op.ts <number>
-
-Converts a positive integer (1–3999) to a Roman numeral string.
-
-Examples:
-  bun ToRoman.op.ts 42          # → XLII
-  bun ToRoman.op.ts 2026        # → MMXXVI
-  bun ToRoman.op.ts 3999        # → MMMCMXCIX`);
-    process.exit(args.length === 0 ? 1 : 0);
-  }
-
-  const input = Number(args[0]);
-
-  const op = new ToRomanNumeralOp({ value: input });
-  const result = await op.run();
-
-  if (result.ok)
-  {
-    process.stdout.write(result.value + '\n');
-  }
-  else
-  {
-    console.error(`Error: ${result.failure}`);
-    if (result.debugData)
-    {
-      console.error(result.debugData);
-    }
-    process.exit(1);
-  }
-}
-
 if (import.meta.main)
 {
+  const { main } = await import('./main.ts');
   main();
 }
