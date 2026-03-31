@@ -1,12 +1,12 @@
 {
   "name": "@axhxrx/roman-numeral",
-  "version": "0.0.1",
+  "version": "2.0.0",
   "exports": "./mod.ts",
   "license": "MIT",
   "compilerOptions": {
     "noUncheckedIndexedAccess": true
   },
   "imports": {
-    "@axhxrx/op": "jsr:@axhxrx/op@^0.9.3"
+    "@axhxrx/op": "jsr:@axhxrx/op@^1.0.0"
   },
 }

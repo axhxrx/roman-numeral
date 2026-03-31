@@ -1,8 +1,10 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-
-import { fromRoman, isRepresentableAsRoman, isValidRoman, MAX_ROMAN_VALUE, MIN_ROMAN_VALUE,
-  toRoman } from './ToRoman.op.ts';
+import { RomanNumeralMaximumValue, RomanNumeralMinimumValue } from './consts.ts';
+import { fromRomanNumeral } from './fromRomanNumeral.ts';
+import { isRepresentableAsRomanNumeral } from './isRepresentableAsRomanNumeral.ts';
+import { isValidRomanNumeral } from './isValidRomanNumeral.ts';
+import { toRomanNumeral } from './toRomanNumeral.ts';
 
 // ── Exported constants ──────────────────────────────────────────────────────
 
@@ -10,12 +12,12 @@ describe('constants', () =>
 {
   it('MIN_ROMAN_VALUE is 1', () =>
   {
-    assert.equal(MIN_ROMAN_VALUE, 1);
+    assert.equal(RomanNumeralMinimumValue, 1);
   });
 
   it('MAX_ROMAN_VALUE is 3999', () =>
   {
-    assert.equal(MAX_ROMAN_VALUE, 3999);
+    assert.equal(RomanNumeralMaximumValue, 3999);
   });
 });
 
@@ -25,36 +27,36 @@ describe('isRepresentableAsRoman', () =>
 {
   it('returns true for values in range 1–3999', () =>
   {
-    assert.equal(isRepresentableAsRoman(1), true);
-    assert.equal(isRepresentableAsRoman(42), true);
-    assert.equal(isRepresentableAsRoman(3999), true);
+    assert.equal(isRepresentableAsRomanNumeral(1), true);
+    assert.equal(isRepresentableAsRomanNumeral(42), true);
+    assert.equal(isRepresentableAsRomanNumeral(3999), true);
   });
 
   it('returns false for 0', () =>
   {
-    assert.equal(isRepresentableAsRoman(0), false);
+    assert.equal(isRepresentableAsRomanNumeral(0), false);
   });
 
   it('returns false for negative numbers', () =>
   {
-    assert.equal(isRepresentableAsRoman(-1), false);
-    assert.equal(isRepresentableAsRoman(-1000), false);
+    assert.equal(isRepresentableAsRomanNumeral(-1), false);
+    assert.equal(isRepresentableAsRomanNumeral(-1000), false);
   });
 
   it('returns false for values above 3999', () =>
   {
-    assert.equal(isRepresentableAsRoman(4000), false);
-    assert.equal(isRepresentableAsRoman(10000), false);
-    assert.equal(isRepresentableAsRoman(Number.MAX_SAFE_INTEGER), false);
+    assert.equal(isRepresentableAsRomanNumeral(4000), false);
+    assert.equal(isRepresentableAsRomanNumeral(10000), false);
+    assert.equal(isRepresentableAsRomanNumeral(Number.MAX_SAFE_INTEGER), false);
   });
 
   it('returns false for non-integers', () =>
   {
-    assert.equal(isRepresentableAsRoman(0.5), false);
-    assert.equal(isRepresentableAsRoman(3.14), false);
-    assert.equal(isRepresentableAsRoman(NaN), false);
-    assert.equal(isRepresentableAsRoman(Infinity), false);
-    assert.equal(isRepresentableAsRoman(-Infinity), false);
+    assert.equal(isRepresentableAsRomanNumeral(0.5), false);
+    assert.equal(isRepresentableAsRomanNumeral(3.14), false);
+    assert.equal(isRepresentableAsRomanNumeral(NaN), false);
+    assert.equal(isRepresentableAsRomanNumeral(Infinity), false);
+    assert.equal(isRepresentableAsRomanNumeral(-Infinity), false);
   });
 });
 
@@ -68,8 +70,8 @@ describe('isValidRoman — accepts all canonical forms', () =>
   {
     for (let n = 1; n <= 3999; n++)
     {
-      const roman = toRoman(n);
-      assert.ok(isValidRoman(roman), `isValidRoman rejected toRoman(${n}) = "${roman}"`);
+      const roman = toRomanNumeral(n);
+      assert.ok(isValidRomanNumeral(roman), `isValidRoman rejected toRoman(${n}) = "${roman}"`);
     }
   });
 
@@ -77,7 +79,7 @@ describe('isValidRoman — accepts all canonical forms', () =>
   {
     for (const s of ['I', 'V', 'X', 'L', 'C', 'D', 'M'])
     {
-      assert.ok(isValidRoman(s), `rejected "${s}"`);
+      assert.ok(isValidRomanNumeral(s), `rejected "${s}"`);
     }
   });
 });
@@ -101,7 +103,7 @@ describe('isValidRoman — rejects non-canonical repetition', () =>
   {
     it(`rejects "${input}" (${reason})`, () =>
     {
-      assert.equal(isValidRoman(input), false);
+      assert.equal(isValidRomanNumeral(input), false);
     });
   }
 });
@@ -130,7 +132,7 @@ describe('isValidRoman — rejects invalid subtractive forms', () =>
   {
     it(`rejects "${input}"`, () =>
     {
-      assert.equal(isValidRoman(input), false);
+      assert.equal(isValidRomanNumeral(input), false);
     });
   }
 });
@@ -163,7 +165,7 @@ describe('isValidRoman — rejects non-canonical ordering and structure', () =>
   {
     it(`rejects "${input}" (${reason})`, () =>
     {
-      assert.equal(isValidRoman(input), false);
+      assert.equal(isValidRomanNumeral(input), false);
     });
   }
 });
@@ -189,7 +191,7 @@ describe('isValidRoman — rejects non-Roman input', () =>
   {
     it(`rejects "${input}" (${reason})`, () =>
     {
-      assert.equal(isValidRoman(input), false);
+      assert.equal(isValidRomanNumeral(input), false);
     });
   }
 });
@@ -217,7 +219,7 @@ describe('fromRoman — basic values', () =>
   {
     it(`${input} → ${expected}`, () =>
     {
-      assert.equal(fromRoman(input), expected);
+      assert.equal(fromRomanNumeral(input), expected);
     });
   }
 });
@@ -237,7 +239,7 @@ describe('fromRoman — subtractive pairs', () =>
   {
     it(`${input} → ${expected}`, () =>
     {
-      assert.equal(fromRoman(input), expected);
+      assert.equal(fromRomanNumeral(input), expected);
     });
   }
 });
@@ -260,7 +262,7 @@ describe('fromRoman — tricky values', () =>
   {
     it(`${input} → ${expected}`, () =>
     {
-      assert.equal(fromRoman(input), expected);
+      assert.equal(fromRomanNumeral(input), expected);
     });
   }
 });
@@ -269,42 +271,42 @@ describe('fromRoman — rejects invalid strings', () =>
 {
   it('throws on empty string', () =>
   {
-    assert.throws(() => fromRoman(''), /Not a valid canonical Roman numeral/);
+    assert.throws(() => fromRomanNumeral(''), /Not a valid canonical Roman numeral/);
   });
 
   it('throws on non-canonical IIII', () =>
   {
-    assert.throws(() => fromRoman('IIII'), /Not a valid canonical Roman numeral/);
+    assert.throws(() => fromRomanNumeral('IIII'), /Not a valid canonical Roman numeral/);
   });
 
   it('throws on invalid subtractive IC', () =>
   {
-    assert.throws(() => fromRoman('IC'), /Not a valid canonical Roman numeral/);
+    assert.throws(() => fromRomanNumeral('IC'), /Not a valid canonical Roman numeral/);
   });
 
   it('throws on lowercase', () =>
   {
-    assert.throws(() => fromRoman('xiv'), /Not a valid canonical Roman numeral/);
+    assert.throws(() => fromRomanNumeral('xiv'), /Not a valid canonical Roman numeral/);
   });
 
   it('throws on non-canonical CMCM', () =>
   {
-    assert.throws(() => fromRoman('CMCM'), /Not a valid canonical Roman numeral/);
+    assert.throws(() => fromRomanNumeral('CMCM'), /Not a valid canonical Roman numeral/);
   });
 
   it('throws on repeated subtractive pair IXIX', () =>
   {
-    assert.throws(() => fromRoman('IXIX'), /Not a valid canonical Roman numeral/);
+    assert.throws(() => fromRomanNumeral('IXIX'), /Not a valid canonical Roman numeral/);
   });
 
   it('throws on non-Roman characters', () =>
   {
-    assert.throws(() => fromRoman('ABC'), /Not a valid canonical Roman numeral/);
+    assert.throws(() => fromRomanNumeral('ABC'), /Not a valid canonical Roman numeral/);
   });
 
   it('throws on VV', () =>
   {
-    assert.throws(() => fromRoman('VV'), /Not a valid canonical Roman numeral/);
+    assert.throws(() => fromRomanNumeral('VV'), /Not a valid canonical Roman numeral/);
   });
 });
 
@@ -331,7 +333,7 @@ describe('toRoman — basic values 1–10', () =>
   {
     it(`${input} → ${expected}`, () =>
     {
-      assert.equal(toRoman(input), expected);
+      assert.equal(toRomanNumeral(input), expected);
     });
   }
 });
@@ -353,7 +355,7 @@ describe('toRoman — all subtractive pairs', () =>
   {
     it(`${input} → ${expected}`, () =>
     {
-      assert.equal(toRoman(input), expected);
+      assert.equal(toRomanNumeral(input), expected);
     });
   }
 });
@@ -381,7 +383,7 @@ describe('toRoman — tricky values that trip up naive implementations', () =>
   {
     it(`${input} → ${expected}`, () =>
     {
-      assert.equal(toRoman(input), expected);
+      assert.equal(toRomanNumeral(input), expected);
     });
   }
 });
@@ -392,32 +394,32 @@ describe('toRoman — notable values', () =>
 {
   it('1666 → MDCLXVI (every symbol once, descending order)', () =>
   {
-    assert.equal(toRoman(1666), 'MDCLXVI');
+    assert.equal(toRomanNumeral(1666), 'MDCLXVI');
   });
 
   it('2026 → MMXXVI (current year)', () =>
   {
-    assert.equal(toRoman(2026), 'MMXXVI');
+    assert.equal(toRomanNumeral(2026), 'MMXXVI');
   });
 
   it('1776 → MDCCLXXVI (US Declaration of Independence)', () =>
   {
-    assert.equal(toRoman(1776), 'MDCCLXXVI');
+    assert.equal(toRomanNumeral(1776), 'MDCCLXXVI');
   });
 
   it('1492 → MCDXCII (Columbus sails)', () =>
   {
-    assert.equal(toRoman(1492), 'MCDXCII');
+    assert.equal(toRomanNumeral(1492), 'MCDXCII');
   });
 
   it('2000 → MM', () =>
   {
-    assert.equal(toRoman(2000), 'MM');
+    assert.equal(toRomanNumeral(2000), 'MM');
   });
 
   it('1000 → M', () =>
   {
-    assert.equal(toRoman(1000), 'M');
+    assert.equal(toRomanNumeral(1000), 'M');
   });
 });
 
@@ -427,12 +429,12 @@ describe('toRoman — standard range boundaries', () =>
 {
   it('1 → I (minimum)', () =>
   {
-    assert.equal(toRoman(1), 'I');
+    assert.equal(toRomanNumeral(1), 'I');
   });
 
   it('3999 → MMMCMXCIX (maximum standard Roman numeral)', () =>
   {
-    assert.equal(toRoman(3999), 'MMMCMXCIX');
+    assert.equal(toRomanNumeral(3999), 'MMMCMXCIX');
   });
 });
 
@@ -442,33 +444,33 @@ describe('toRoman — out of range throws RangeError by default', () =>
 {
   it('4000 throws RangeError', () =>
   {
-    assert.throws(() => toRoman(4000), RangeError);
+    assert.throws(() => toRomanNumeral(4000), RangeError);
   });
 
   it('4001 throws RangeError', () =>
   {
-    assert.throws(() => toRoman(4001), RangeError);
+    assert.throws(() => toRomanNumeral(4001), RangeError);
   });
 
   it('10000 throws RangeError', () =>
   {
-    assert.throws(() => toRoman(10000), RangeError);
+    assert.throws(() => toRomanNumeral(10000), RangeError);
   });
 
   it('1000000 throws RangeError (no DoS from huge value)', () =>
   {
-    assert.throws(() => toRoman(1_000_000), RangeError);
+    assert.throws(() => toRomanNumeral(1_000_000), RangeError);
   });
 
   it('Number.MAX_SAFE_INTEGER throws RangeError instantly (no hang)', () =>
   {
-    assert.throws(() => toRoman(Number.MAX_SAFE_INTEGER), RangeError);
+    assert.throws(() => toRomanNumeral(Number.MAX_SAFE_INTEGER), RangeError);
   });
 
   it('RangeError message includes the range bounds', () =>
   {
     assert.throws(
-      () => toRoman(5000),
+      () => toRomanNumeral(5000),
       (err: unknown) =>
       {
         assert.ok(err instanceof RangeError);
@@ -486,32 +488,32 @@ describe('toRoman — fallbackToDecimal option', () =>
 {
   it('4000 returns "4000" with fallbackToDecimal', () =>
   {
-    assert.equal(toRoman(4000, { fallbackToDecimal: true }), '4000');
+    assert.equal(toRomanNumeral(4000, { fallbackToDecimal: true }), '4000');
   });
 
   it('999999 returns "999999" with fallbackToDecimal', () =>
   {
-    assert.equal(toRoman(999_999, { fallbackToDecimal: true }), '999999');
+    assert.equal(toRomanNumeral(999_999, { fallbackToDecimal: true }), '999999');
   });
 
   it('Number.MAX_SAFE_INTEGER returns its string with fallbackToDecimal', () =>
   {
-    assert.equal(toRoman(Number.MAX_SAFE_INTEGER, { fallbackToDecimal: true }), String(Number.MAX_SAFE_INTEGER));
+    assert.equal(toRomanNumeral(Number.MAX_SAFE_INTEGER, { fallbackToDecimal: true }), String(Number.MAX_SAFE_INTEGER));
   });
 
   it('in-range values still return Roman numerals with fallbackToDecimal', () =>
   {
-    assert.equal(toRoman(42, { fallbackToDecimal: true }), 'XLII');
-    assert.equal(toRoman(3999, { fallbackToDecimal: true }), 'MMMCMXCIX');
+    assert.equal(toRomanNumeral(42, { fallbackToDecimal: true }), 'XLII');
+    assert.equal(toRomanNumeral(3999, { fallbackToDecimal: true }), 'MMMCMXCIX');
   });
 
   it('invalid inputs still throw even with fallbackToDecimal', () =>
   {
-    assert.throws(() => toRoman(0, { fallbackToDecimal: true }), /positive integer/);
-    assert.throws(() => toRoman(-1, { fallbackToDecimal: true }), /positive integer/);
-    assert.throws(() => toRoman(3.14, { fallbackToDecimal: true }), /positive integer/);
-    assert.throws(() => toRoman(NaN, { fallbackToDecimal: true }), /positive integer/);
-    assert.throws(() => toRoman(Infinity, { fallbackToDecimal: true }), /positive integer/);
+    assert.throws(() => toRomanNumeral(0, { fallbackToDecimal: true }), /positive integer/);
+    assert.throws(() => toRomanNumeral(-1, { fallbackToDecimal: true }), /positive integer/);
+    assert.throws(() => toRomanNumeral(3.14, { fallbackToDecimal: true }), /positive integer/);
+    assert.throws(() => toRomanNumeral(NaN, { fallbackToDecimal: true }), /positive integer/);
+    assert.throws(() => toRomanNumeral(Infinity, { fallbackToDecimal: true }), /positive integer/);
   });
 });
 
@@ -521,54 +523,54 @@ describe('toRoman — invalid inputs throw Error (not RangeError)', () =>
 {
   it('0 throws (no Roman representation of zero)', () =>
   {
-    assert.throws(() => toRoman(0), /positive integer/);
+    assert.throws(() => toRomanNumeral(0), /positive integer/);
   });
 
   it('-1 throws', () =>
   {
-    assert.throws(() => toRoman(-1), /positive integer/);
+    assert.throws(() => toRomanNumeral(-1), /positive integer/);
   });
 
   it('-1000 throws', () =>
   {
-    assert.throws(() => toRoman(-1000), /positive integer/);
+    assert.throws(() => toRomanNumeral(-1000), /positive integer/);
   });
 
   it('0.5 throws (not an integer)', () =>
   {
-    assert.throws(() => toRoman(0.5), /positive integer/);
+    assert.throws(() => toRomanNumeral(0.5), /positive integer/);
   });
 
   it('3.14 throws', () =>
   {
-    assert.throws(() => toRoman(3.14), /positive integer/);
+    assert.throws(() => toRomanNumeral(3.14), /positive integer/);
   });
 
   it('NaN throws', () =>
   {
-    assert.throws(() => toRoman(NaN), /positive integer/);
+    assert.throws(() => toRomanNumeral(NaN), /positive integer/);
   });
 
   it('Infinity throws', () =>
   {
-    assert.throws(() => toRoman(Infinity), /positive integer/);
+    assert.throws(() => toRomanNumeral(Infinity), /positive integer/);
   });
 
   it('-Infinity throws', () =>
   {
-    assert.throws(() => toRoman(-Infinity), /positive integer/);
+    assert.throws(() => toRomanNumeral(-Infinity), /positive integer/);
   });
 
   it('Number.MIN_SAFE_INTEGER throws', () =>
   {
-    assert.throws(() => toRoman(Number.MIN_SAFE_INTEGER), /positive integer/);
+    assert.throws(() => toRomanNumeral(Number.MIN_SAFE_INTEGER), /positive integer/);
   });
 
   it('invalid inputs throw plain Error, not RangeError', () =>
   {
     try
     {
-      toRoman(0);
+      toRomanNumeral(0);
       assert.fail('should have thrown');
     }
     catch (error: unknown)
@@ -589,8 +591,8 @@ describe('exhaustive validation over entire standard range (1–3999)', () =>
   {
     for (let n = 1; n <= 3999; n++)
     {
-      const roman = toRoman(n);
-      const roundTripped = fromRoman(roman);
+      const roman = toRomanNumeral(n);
+      const roundTripped = fromRomanNumeral(roman);
       assert.equal(roundTripped, n,
         `Round-trip failed for ${n}: toRoman gave "${roman}", fromRoman gave ${roundTripped}`);
     }
@@ -600,8 +602,8 @@ describe('exhaustive validation over entire standard range (1–3999)', () =>
   {
     for (let n = 1; n <= 3999; n++)
     {
-      const roman = toRoman(n);
-      assert.ok(isValidRoman(roman), `toRoman(${n}) = "${roman}" is not valid according to isValidRoman`);
+      const roman = toRomanNumeral(n);
+      assert.ok(isValidRomanNumeral(roman), `toRoman(${n}) = "${roman}" is not valid according to isValidRoman`);
     }
   });
 
@@ -610,7 +612,7 @@ describe('exhaustive validation over entire standard range (1–3999)', () =>
     const seen = new Map<string, number>();
     for (let n = 1; n <= 3999; n++)
     {
-      const roman = toRoman(n);
+      const roman = toRomanNumeral(n);
       if (seen.has(roman))
       {
         assert.fail(`Duplicate output "${roman}" for both ${seen.get(roman)} and ${n}`);
@@ -625,7 +627,7 @@ describe('exhaustive validation over entire standard range (1–3999)', () =>
     let maxN = 0;
     for (let n = 1; n <= 3999; n++)
     {
-      const len = toRoman(n).length;
+      const len = toRomanNumeral(n).length;
       if (len > maxLen)
       {
         maxLen = len;
@@ -634,7 +636,7 @@ describe('exhaustive validation over entire standard range (1–3999)', () =>
     }
     assert.equal(maxLen, 15, `Expected max length 15, got ${maxLen} at n=${maxN}`);
     assert.equal(maxN, 3888);
-    assert.equal(toRoman(3888), 'MMMDCCCLXXXVIII');
+    assert.equal(toRomanNumeral(3888), 'MMMDCCCLXXXVIII');
   });
 
   it('exactly 3999 valid canonical Roman numerals exist', () =>
@@ -672,14 +674,14 @@ describe('exhaustive validation over entire standard range (1–3999)', () =>
     // Every generated string should be valid
     for (const s of allStrings)
     {
-      assert.ok(isValidRoman(s), `Generated canonical form "${s}" rejected by isValidRoman`);
+      assert.ok(isValidRomanNumeral(s), `Generated canonical form "${s}" rejected by isValidRoman`);
     }
 
     // Every generated string should round-trip through fromRoman/toRoman
     for (const s of allStrings)
     {
-      const n = fromRoman(s);
-      assert.equal(toRoman(n), s, `fromRoman("${s}") = ${n}, but toRoman(${n}) = "${toRoman(n)}"`);
+      const n = fromRomanNumeral(s);
+      assert.equal(toRomanNumeral(n), s, `fromRoman("${s}") = ${n}, but toRoman(${n}) = "${toRomanNumeral(n)}"`);
     }
   });
 });
@@ -704,7 +706,7 @@ describe('toRoman — systematic tens', () =>
   {
     it(`${input} → ${expected}`, () =>
     {
-      assert.equal(toRoman(input), expected);
+      assert.equal(toRomanNumeral(input), expected);
     });
   }
 });
@@ -727,7 +729,7 @@ describe('toRoman — systematic hundreds', () =>
   {
     it(`${input} → ${expected}`, () =>
     {
-      assert.equal(toRoman(input), expected);
+      assert.equal(toRomanNumeral(input), expected);
     });
   }
 });
@@ -744,7 +746,7 @@ describe('toRoman — systematic thousands', () =>
   {
     it(`${input} → ${expected}`, () =>
     {
-      assert.equal(toRoman(input), expected);
+      assert.equal(toRomanNumeral(input), expected);
     });
   }
 });
@@ -753,12 +755,12 @@ describe('toRoman — systematic thousands', () =>
 
 describe('toRoman — composite values combining all place values', () =>
 {
-  it('1111 → MCXI', () => assert.equal(toRoman(1111), 'MCXI'));
-  it('2222 → MMCCXXII', () => assert.equal(toRoman(2222), 'MMCCXXII'));
-  it('3333 → MMMCCCXXXIII', () => assert.equal(toRoman(3333), 'MMMCCCXXXIII'));
-  it('1234 → MCCXXXIV', () => assert.equal(toRoman(1234), 'MCCXXXIV'));
-  it('3456 → MMMCDLVI', () => assert.equal(toRoman(3456), 'MMMCDLVI'));
-  it('2789 → MMDCCLXXXIX', () => assert.equal(toRoman(2789), 'MMDCCLXXXIX'));
+  it('1111 → MCXI', () => assert.equal(toRomanNumeral(1111), 'MCXI'));
+  it('2222 → MMCCXXII', () => assert.equal(toRomanNumeral(2222), 'MMCCXXII'));
+  it('3333 → MMMCCCXXXIII', () => assert.equal(toRomanNumeral(3333), 'MMMCCCXXXIII'));
+  it('1234 → MCCXXXIV', () => assert.equal(toRomanNumeral(1234), 'MCCXXXIV'));
+  it('3456 → MMMCDLVI', () => assert.equal(toRomanNumeral(3456), 'MMMCDLVI'));
+  it('2789 → MMDCCLXXXIX', () => assert.equal(toRomanNumeral(2789), 'MMDCCLXXXIX'));
 });
 
 // ── Numeric edge cases ──────────────────────────────────────────────────────
@@ -767,11 +769,11 @@ describe('toRoman — numeric edge cases', () =>
 {
   it('integer that looks like float: 42.0 works (Number.isInteger(42.0) is true)', () =>
   {
-    assert.equal(toRoman(42.0), 'XLII');
+    assert.equal(toRomanNumeral(42.0), 'XLII');
   });
 
   it('1e3 works (1000 in scientific notation)', () =>
   {
-    assert.equal(toRoman(1e3), 'M');
+    assert.equal(toRomanNumeral(1e3), 'M');
   });
 });

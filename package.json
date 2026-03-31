@@ -1,13 +1,24 @@
 {
-  "name": "roman-numeral",
+  "name": "@axhxrx/roman-numeral",
+  "version": "2.0.0",
+  "type": "module",
+  "exports": "./mod.ts",
+  "license": "MIT",
+  "dependencies": {
+    "@axhxrx/op": "npm:@jsr/axhxrx__op@^1.0.0"
+  },
   "devDependencies": {
     "@types/bun": "latest"
   },
   "peerDependencies": {
     "typescript": "^5"
   },
-  "private": true,
-  "dependencies": {
-    "@axhxrx/op": "npm:@jsr/axhxrx__op"
+  "files": [
+    "*.ts",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "check": "bun test && deno test && node --test && deno check && deno lint && dprint fmt"
   }
 }
